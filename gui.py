@@ -49,14 +49,10 @@ class Layout:
     def authenticate(self):
         self.console_write(self.variable.get())
         uuid = self.device.get_id()
-        print('got uuid: ' + str(uuid))
         noonce = self.rand_32bit()
-        print('nonce = ' + str(noonce))
         self.console_write(noonce)
         enc_noonce = self.device.encrypt(noonce)
-        print('encrypted noonce = ' + str(enc_noonce))
         dec_noonce = rsa.decrypt(enc_noonce, public_key, shared_modulous)
-        print('decrypted noonce = ' + str(dec_noonce))
         self.console_write(dec_noonce)
         if (noonce == dec_noonce):
             self.console_write("Authentication Seccuessful!")
@@ -64,7 +60,6 @@ class Layout:
             self.console_write("Authentication Failed!")
 
     def refresh(self):
-        print("REFRESHING!!!")
         devices = self.get_devices()
         self.variable.set(devices[0])
         self.device_selector['menu'].delete(0, 'end')
